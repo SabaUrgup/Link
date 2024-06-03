@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
@@ -22,11 +21,11 @@ export async function PATCH(
       where: {
         id: params.serverId,
         profileId: {
-          not: profile.id
+          not: profile.id // Ensure admin cannot leave server themselves
         },
         members: {
           some: {
-            profileId: profile.id
+            profileId: profile.id   // Only members can leave server
           }
         }
       },

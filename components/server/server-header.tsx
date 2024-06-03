@@ -96,7 +96,7 @@ export const ServerHeader = ({
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
             onClick={() => onOpen("deleteServer", { server })}
           >
-            Delete Server
+            Delete Link
             <Trash className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}
@@ -105,7 +105,7 @@ export const ServerHeader = ({
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
             onClick={() => onOpen("leaveServer", { server })}
           >
-            Leave Server
+            Leave Link
             <LogOut className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}
