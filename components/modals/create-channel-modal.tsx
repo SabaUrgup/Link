@@ -6,7 +6,6 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ChannelType } from "@prisma/client";
-import { useEffect } from "react";
 
 import {
   Dialog,
@@ -34,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -41,7 +41,7 @@ const formSchema = z.object({
   }).refine(
     name => name !== "general",
     {
-      message: "Channel name cannot be 'general'!"
+      message: "Channel name cannot be 'general'"
     }
   ),
   type: z.nativeEnum(ChannelType)
@@ -50,23 +50,32 @@ const formSchema = z.object({
 export const CreateChannelModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
-  const params = useParams(); //use params and use router from next/navigation
+  const params = useParams();
 
   const isModalOpen = isOpen && type === "createChannel";
+  const { channelType } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     }
   });
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+    }
+  }, [channelType, form]);
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({   //holds the server id in it params
+      const url = qs.stringifyUrl({
         url: "/api/channels",
         query: {
           serverId: params?.serverId
