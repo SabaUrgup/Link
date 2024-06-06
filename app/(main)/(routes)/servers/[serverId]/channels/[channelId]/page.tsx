@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { ChatHeader } from "@/components/chat/chat-header";
+import { ChatInput } from "../../../../../../../components/chat/chat-input";
 
 interface ChannelIdPageProps {
   params: {
@@ -43,6 +44,15 @@ const ChannelIdPage = async ({
         name={channel.name}
         serverId={channel.serverId}
         type="channel"
+      />
+      <ChatInput
+        name={channel.name}
+        type="channel"
+        apiUrl="/api/socket/messages"
+        query={{
+          channelId: channel.id,
+          serverId: channel.serverId,
+        }}
       />
     </div>
   );
