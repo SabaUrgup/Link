@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/use-modal-store";
+import { EmojiPicker } from "../emoji-picker";
 
 interface ChatInputProps {
   apiUrl: string;
@@ -41,7 +42,6 @@ export const ChatInput = ({
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     try {
       const url = qs.stringifyUrl({
         url: apiUrl,
@@ -81,6 +81,11 @@ export const ChatInput = ({
                     placeholder={`Message ${type === "conversation" ? name : "#" + name}`}
                     {...field}
                   />
+                  <div className="absolute top-7 right-8">
+                    <EmojiPicker
+                      onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)}
+                    />
+                  </div>
                 </div>
               </FormControl>
             </FormItem>
