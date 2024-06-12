@@ -56,6 +56,7 @@ export const ChatMessages = ({
     paramKey,
     paramValue,
   });
+  useChatSocket({ queryKey, addKey, updateKey });
 
   if (status === "pending") {
     return (
